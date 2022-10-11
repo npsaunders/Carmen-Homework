@@ -3,10 +3,8 @@
 -- so find the least populated country in Southern Europe, and we'll start looking for her there.
  
 -- Write SQL query here
-SELECT name FROM country
+SELECT name FROM country 
 WHERE population = (SELECT MIN(population) FROM country WHERE region = 'Southern Europe');
-
-Result = Holy See (Vatican City State)
 
 
 -- Clue #2: Now that we're here, we have insight that Carmen was seen attending language classes in
@@ -17,8 +15,6 @@ Result = Holy See (Vatican City State)
 SELECT * FROM countrylanguage 
 WHERE countrycode = (SELECT code FROM country WHERE name LIKE 'Holy See%') AND
 isofficial = 't';
-
-Result = Italian
 
 
 -- Clue #3: We have new news on the classes Carmen attended – our gumshoes tell us she's moved on
@@ -32,35 +28,25 @@ WHERE c.region = 'Southern Europe' AND
 cl.language = 'Italian' AND
 cl.percentage > 95;
 
-Result = San Marino
-
 -- Clue #4: We're booking the first flight out – maybe we've actually got a chance to catch her this time.
 -- There are only two cities she could be flying to in the country. One is named the same as the country – that
 -- would be too obvious. We're following our gut on this one; find out what other city in that country she might
 -- be flying to.
 
 -- Write SQL query here
-
 SELECT * from city cy
 JOIN country c ON cy.countrycode = c.code
 WHERE c.name  = 'San Marino';
-
-
-Result = Serraville
-
 
 -- Clue #5: Oh no, she pulled a switch – there are two cities with very similar names, but in totally different
 -- parts of the globe! She's headed to South America as we speak; go find a city whose name is like the one we were
 -- headed to, but doesn't end the same. Find out the city, and do another search for what country it's in. Hurry!
 
 -- Write SQL query here
-
 SELECT * FROM city cy
 JOIN country c ON cy.countrycode = c.code
 WHERE c.continent = 'South America' AND
 cy.name LIKE 'Serr%';
-
-Result:  city is Serra in Brazil
 
 
 -- Clue #6: We're close! Our South American agent says she just got a taxi at the airport, and is headed towards
@@ -71,8 +57,6 @@ Result:  city is Serra in Brazil
 SELECT * FROM city c
 JOIN country cry ON c.id = cry.capital
 WHERE cry.name = 'Brazil';
-
-Result = Brasilia
 
 
 -- Clue #7: She knows we're on to her – her taxi dropped her off at the international airport, and she beat us to
@@ -90,8 +74,5 @@ Result = Brasilia
 
 
 -- We're counting on you, gumshoe. Find out where she's headed, send us the info, and we'll be sure to meet her at the gates with bells on.
-
 SELECT * FROM city
 WHERE population = 91084;
-
-Result = Santa Monica, CA   USA
